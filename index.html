@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AP Units</title>
+    <title>Sight Reading Results</title>
     <link rel="icon" href="/icons/BGicon.png">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
@@ -69,28 +69,13 @@
             }
         }
 
-        .logocontainer {
-            position: relative;
-            margin-top: -90px;
-            min-height: -5vh;
-            padding-bottom: 50px;
-        }
 
-        .logo {
-            position: absolute;
-            right: 0;
-            bottom: 0;
-            width: 25vh;
-            height: auto;
-            z-index: 10; 
-        }
 
         .Subtitle {
-            font-family: 'Zapfino', sans-serif;
-            color: white;
-            margin-top: -0.7em;
-            font-size: 40px;
-        }
+    font-family: 'Zapfino', sans-serif;
+    font-size: 40px;
+    margin-top: -0.5em; /* Adjusted for better spacing */
+}
 
         .hamburger-menu {
             position: absolute;
@@ -198,41 +183,36 @@
         }
 
         .container {
-            max-width: 800px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: calc(100vh - 200px);
-        }
-
-        h1 {
-            font-size: 2.5rem;
-            font-weight: 300;
-            text-align: center;
-            margin-bottom: 40px;
-            letter-spacing: 2px;
-        }
-
-        .chart-container {
-            margin-top: -25vh;
-            width: 100%;
-            height: 40vh;
-            max-width: 600px;
-            background-color: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 
-            0 10px rgba(0,0,0,0.1);
-        }
-
-        .container2 {
-    width: 100%; /* Full width of the viewport */
+    flex: 1; /* Allow the container to grow */
     display: flex;
     justify-content: center;
     align-items: center;
-    height: calc(100vh - 300px); /* Increased space above and below */
-    margin-top: -500px; /* Space above the container */
+    padding: 20px; /* Added padding for better spacing */
+}
+
+        h1 {
+    font-size: 2.5rem;
+    font-weight: 300;
+    text-align: center;
+    margin: 20px 0; /* Adjust margin for spacing */
+    letter-spacing: 2px;
+}
+
+.chart-container {
+    width: 100%;
+    height: 40vh;
+    max-width: 600px;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.container2 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0; /* Added margin for spacing */
 }
 
 .images {
@@ -241,10 +221,26 @@
     height: auto; /* Maintain aspect ratio */
 }
 
-        canvas {
-            width: 100% !important;
-            height: auto !important;
-        }
+canvas {
+    width: 100% !important;
+    height: auto !important;
+}
+
+        
+.logocontainer {
+    position: relative;
+    min-height: 10vh;
+    padding-bottom: 50px;
+}
+
+.logo {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 25vh;
+    height: auto;
+    z-index: 10; 
+}
     </style>
 </head>
 <body>
@@ -282,13 +278,11 @@
     </div>
 
     <div class="container2">
-        <img src="images/Sight Reading Segments.jpg" class="images">
+        <img src="images/Sight Reading Segments.jpg" class="images" alt="Sight Reading Segments">
     </div>
-
 
     <div class="logocontainer">        
         <img src="BASIS logo/Full Logo White on Transparent.png" alt="BASIS Logo" class="logo">
-    </div>
     
     <script>
     // Hamburger menu functionality
