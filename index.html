@@ -71,7 +71,7 @@
 
         .logocontainer {
             position: relative;
-            margin-top: -50px;
+            margin-top: -90px;
             min-height: -5vh;
             padding-bottom: 50px;
         }
@@ -215,14 +215,18 @@
         }
 
         .chart-container {
-    margin-top: -30vh;
-    margin-bottom: -100px; /* This will pull the next element closer */
-    width: 600px;
-    background-color: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
-}
+            margin-top: -35vh;
+            width: 100%;
+            max-width: 600px;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        canvas {
+            width: 100% !important;
+            height: auto !important;
+        }
     </style>
 </head>
 <body>
@@ -284,56 +288,57 @@
 
     // Chart.js code
     const ctx = document.getElementById('assessmentChart').getContext('2d');
-    new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: ['Segment 1', 'Segment 2', 'Segment 3', 'Segment 4', 'Segment 5', 'Segment 6', 'Segment 7', 'Segment 8'],
-            datasets: [{
-                label: 'Pitch',
-                data: [84.6, 53.8, 53.8, 84.6, 76.9, 46.2, 38.5, 100],
-                backgroundColor: 'rgba(75, 192, 192, 0.6)',
-                borderColor: 'rgba(75, 192, 192, 1)',
-                borderWidth: 1
-            }, {
-                label: 'Rhythm',
-                data: [92.3, 92.3, 92.3, 100, 69.2, 84.6, 61.5, 100],
-                backgroundColor: 'rgba(255, 99, 132, 0.6)',
-                borderColor: 'rgba(255, 99, 132, 1)',
-                borderWidth: 1
-            }]
-        },
-        options: {
-            responsive: true,
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    max: 100,
-                    title: {
-                        display: true,
-                        text: 'Success Rate (%)'
-                    }
-                },
-                x: {
-                    title: {
-                        display: true,
-                        text: ''
-                    }
-                }
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Segment 1', 'Segment 2', 'Segment 3', 'Segment 4', 'Segment 5', 'Segment 6', 'Segment 7', 'Segment 8'],
+                datasets: [{
+                    label: 'Pitch',
+                    data: [84.6, 53.8, 53.8, 84.6, 76.9, 46.2, 38.5, 100],
+                    backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }, {
+                    label: 'Rhythm',
+                    data: [92.3, 92.3, 92.3, 100, 69.2, 84.6, 61.5, 100],
+                    backgroundColor: 'rgba(255, 99, 132, 0.6)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1
+                }]
             },
-            plugins: {
-                title: {
-                    display: true,
-                    text: 'August 29, 2024 Results by Segment and Criteria',
-                    font: {
-                        size: 16
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 100,
+                        title: {
+                            display: true,
+                            text: 'Success Rate (%)'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: ''
+                        }
                     }
                 },
-                legend: {
-                    position: 'bottom'
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'August 29, 2024 Results by Segment and Criteria',
+                        font: {
+                            size: 16
+                        }
+                    },
+                    legend: {
+                        position: 'bottom'
+                    }
                 }
             }
-        }
-    });
+        });
     </script>
 </body>
 </html>
