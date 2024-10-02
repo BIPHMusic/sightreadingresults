@@ -69,13 +69,11 @@
             }
         }
 
-
-
         .Subtitle {
-    font-family: 'Zapfino', sans-serif;
-    font-size: 40px;
-    margin-top: -0.5em; /* Adjusted for better spacing */
-}
+            font-family: 'Zapfino', sans-serif;
+            font-size: 40px;
+            margin-top: -0.5em;
+        }
 
         .hamburger-menu {
             position: absolute;
@@ -183,64 +181,100 @@
         }
 
         .container {
-    flex: 1; /* Allow the container to grow */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px; /* Added padding for better spacing */
-}
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
 
         h1 {
-    font-size: 2.5rem;
-    font-weight: 300;
-    text-align: center;
-    margin: 20px 0; /* Adjust margin for spacing */
-    letter-spacing: 2px;
-}
+            font-size: 2.5rem;
+            font-weight: 300;
+            text-align: center;
+            margin: 20px 0;
+            letter-spacing: 2px;
+        }
 
-.chart-container {
-    width: 100%;
-    height: 40vh;
-    max-width: 600px;
-    background-color: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
+        .chart-container {
+            width: 100%;
+            height: 40vh;
+            max-width: 600px;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
 
-.container2 {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 20px 0; /* Added margin for spacing */
-}
+        .container2 {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 20px 0;
+        }
 
-.images {
-    width: 80%; /* Responsive width */
-    max-width: 600px; /* Optional: Set a max width for larger screens */
-    height: auto; /* Maintain aspect ratio */
-}
+        .images {
+            width: 80%;
+            max-width: 600px;
+            height: auto;
+        }
 
-canvas {
-    width: 100% !important;
-    height: auto !important;
-}
+        canvas {
+            width: 100% !important;
+            height: auto !important;
+        }
 
-        
-.logocontainer {
-    position: relative;
-    min-height: 10vh;
-    padding-bottom: 50px;
-}
+        .logocontainer {
+            position: relative;
+            min-height: 10vh;
+            padding-bottom: 50px;
+        }
 
-.logo {
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    width: 25vh;
-    height: auto;
-    z-index: 10; 
-}
+        .logo {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            width: 25vh;
+            height: auto;
+            z-index: 10; 
+        }
+
+        .stepper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 20px 0;
+        }
+
+        .stepper-button {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 0 10px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .stepper-button:hover {
+            background-color: #45a049;
+        }
+
+        .stepper-button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+
+        .date-display {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 0 20px;
+        }
     </style>
 </head>
 <body>
@@ -271,6 +305,12 @@ canvas {
     <h1 class="Title">BIPH Music</h1>
     <h1 class="Subtitle">Sight Reading Results</h1>
 
+    <div class="stepper">
+        <button class="stepper-button" id="prevButton" onclick="changeDate(-1)">Previous</button>
+        <span class="date-display" id="currentDate"></span>
+        <button class="stepper-button" id="nextButton" onclick="changeDate(1)">Next</button>
+    </div>
+
     <div class="container">
         <div class="chart-container">
             <canvas id="assessmentChart"></canvas>
@@ -278,11 +318,12 @@ canvas {
     </div>
 
     <div class="container2">
-        <img src="images/Sight Reading Segments.jpg" class="images" alt="Sight Reading Segments">
+        <img id="sightReadingImage" src="" class="images" alt="Sight Reading Segments">
     </div>
 
     <div class="logocontainer">        
         <img src="BASIS logo/Full Logo White on Transparent.png" alt="BASIS Logo" class="logo">
+    </div>
     
     <script>
     // Hamburger menu functionality
@@ -296,66 +337,121 @@ canvas {
     
     // Close the menu when clicking outside
     document.addEventListener('click', (event) => {
-        // Check if the click was outside the menu and the toggle button
         if (!menuToggle.contains(event.target) && !menuItems.contains(event.target)) {
             menuToggle.classList.remove('open');
             menuItems.classList.remove('show');
         }
     });
 
-    // Chart.js code
+    // Chart.js and date stepper functionality
+    const dates = ['August 30, 2024', 'September 6, 2024', 'September 13, 2024', 'September 20, 2024', 'September 27, 2024'];
+    let currentDateIndex = 0;
     const ctx = document.getElementById('assessmentChart').getContext('2d');
-        new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: ['Segment 1', 'Segment 2', 'Segment 3', 'Segment 4', 'Segment 5', 'Segment 6', 'Segment 7', 'Segment 8'],
-                datasets: [{
-                    label: 'Pitch',
-                    data: [84.6, 53.8, 53.8, 84.6, 76.9, 46.2, 38.5, 100],
-                    backgroundColor: 'rgba(75, 192, 192, 0.6)',
-                    borderColor: 'rgba(75, 192, 192, 1)',
-                    borderWidth: 1
-                }, {
-                    label: 'Rhythm',
-                    data: [92.3, 92.3, 92.3, 100, 69.2, 84.6, 61.5, 100],
-                    backgroundColor: 'rgba(255, 99, 132, 0.6)',
-                    borderColor: 'rgba(255, 99, 132, 1)',
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        max: 100,
-                        title: {
-                            display: true,
-                            text: 'Success Rate (%)'
-                        }
-                    },
-                    x: {
-                        title: {
-                            display: true,
-                            text: ''
-                        }
-                    }
-                },
-                plugins: {
+    let chart;
+
+    const data = {
+    'August 30, 2024': {
+        pitch: [87.5, 43.75, 43.75, 68.75, 68.75, 31.25, 37.5, 93.75],
+        rhythm: [87.5, 93.75, 87.5, 100, 75, 81.25, 56.25, 93.75],
+        image: 'images/Sight Reading Segments_Aug30.jpg'
+    },
+    'September 6, 2024': {
+        pitch: [75, 81.25, 68.75, 87.5, 93.75, 81.25, 81.25, 87.5],
+        rhythm: [93.75, 93.75, 87.5, 93.75, 100, 87.5, 87.5, 93.75],
+        image: 'images/Sight Reading Segments_Sep6.jpg'
+    },
+    'September 13, 2024': {
+        pitch: [50, 50, 50, 56.25, 56.25, 50, 43.75, 68.75],
+        rhythm: [62.5, 68.75, 75, 75, 81.25, 75, 50, 75],
+        image: 'images/Sight Reading Segments_Sep13.jpg'
+    },
+    'September 20, 2024': {
+        pitch: [62.5, 68.75, 68.75, 68.75, 62.5, 56.25, 62.5, 75],
+        rhythm: [81.25, 81.25, 81.25, 81.25, 75, 81.25, 81.25, 75],
+        image: 'images/Sight Reading Segments_Sep20.jpg'
+    },
+    'September 27, 2024': {
+        pitch: [68.75, 62.5, 62.5, 62.5, 75, 68.75, 50, 75],
+        rhythm: [81.25, 75, 81.25, 75, 81.25, 81.25, 75, 81.25],
+        image: 'images/Sight Reading Segments_Sep27.jpg'
+    }
+};
+
+    function updateChart(date) {
+        const chartData = data[date];
+        chart.data.datasets[0].data = chartData.pitch;
+        chart.data.datasets[1].data = chartData.rhythm;
+        chart.options.plugins.title.text = `${date} Results by Segment and Criteria`;
+        chart.update();
+
+        document.getElementById('sightReadingImage').src = chartData.image;
+        document.getElementById('currentDate').textContent = date;
+
+        document.getElementById('prevButton').disabled = (currentDateIndex === 0);
+        document.getElementById('nextButton').disabled = (currentDateIndex === dates.length - 1);
+    }
+
+    function changeDate(direction) {
+        currentDateIndex += direction;
+        if (currentDateIndex < 0) currentDateIndex = 0;
+        if (currentDateIndex >= dates.length) currentDateIndex = dates.length - 1;
+        updateChart(dates[currentDateIndex]);
+    }
+
+    chart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Segment 1', 'Segment 2', 'Segment 3', 'Segment 4', 'Segment 5', 'Segment 6', 'Segment 7', 'Segment 8'],
+            datasets: [{
+                label: 'Pitch',
+                data: [],
+                backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }, {
+                label: 'Rhythm',
+                data: [],
+                backgroundColor: 'rgba(255, 99, 132, 0.6)',
+                borderColor: 'rgba(255, 99, 132, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 100,
                     title: {
                         display: true,
-                        text: 'August 29, 2024 Results by Segment and Criteria',
-                        font: {
-                            size: 16
-                        }
-                    },
-                    legend: {
-                        position: 'bottom'
+                        text: 'Success Rate (%)'
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: ''
                     }
                 }
+            },
+            plugins: {
+                title: {
+                    display: true,
+                    text: '',
+                    font: {
+                        size: 16
+                    }
+                },
+                legend: {
+                    position: 'bottom'
+                }
             }
-        });
+        }
+    });
+
+    // Initialize with the first date
+    updateChart(dates[currentDateIndex]);
     </script>
 </body>
 </html>
